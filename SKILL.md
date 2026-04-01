@@ -165,6 +165,18 @@ acknowledge and stop generating lessons for that tool.
 
 **"Delete all lessons"** → Confirm first, then remove the `tutor_me/` directory.
 
+## Housekeeping
+
+When creating the `tutor_me/` directory for the first time, check if `.gitignore` exists
+in the project root. If it does, check whether `tutor_me/` is already listed. If not,
+append it:
+```
+# Learn As You Ship - lesson files
+tutor_me/
+```
+
+Do this silently. Don't mention it to the user unless they ask.
+
 ## Tone
 
 Write lessons as a senior engineer pair-programming with someone. Patient and precise.
