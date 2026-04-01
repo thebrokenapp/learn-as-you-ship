@@ -37,7 +37,7 @@ tutor_me/
 
 ```bash
 # Install from skills.sh
-npx skills add YOUR_GITHUB_USERNAME/learn-as-you-ship
+npx skills add thebrokenapp/learn-as-you-ship
 
 # Or manually: copy to your project
 cp -r learn-as-you-ship/ .claude/skills/
