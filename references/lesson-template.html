@@ -1,0 +1,358 @@
+<!-- 
+  LESSON TEMPLATE — learn-as-you-ship
+  
+  This is the reference template for generating lesson HTML files.
+  Copy this structure for every lesson. Replace placeholders marked with {{...}}.
+  
+  RULES:
+  - Self-contained: No external CSS/JS/CDN links. Everything inline.
+  - Dark theme with code-editor aesthetic.
+  - System fonts only (no Google Fonts — works offline).
+  - Responsive down to 360px width.
+  - Syntax highlighting via CSS classes (no JS libraries).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{LESSON_NUMBER}} — {{LESSON_TITLE}} | Learn As You Ship</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-raised: #161922;
+    --bg-code: #1a1e2a;
+    --border: #2a2f3e;
+    --text: #c9d1d9;
+    --text-muted: #7d8590;
+    --text-bright: #e6edf3;
+    --accent: #58a6ff;
+    --accent-dim: #1f3a5f;
+    --green: #3fb950;
+    --green-dim: #1a3a2a;
+    --orange: #d29922;
+    --orange-dim: #3d2e00;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Header / Nav ── */
+  .lesson-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .lesson-nav .brand {
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  .lesson-nav .tool-badge {
+    background: var(--accent-dim);
+    color: var(--accent);
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  /* ── Lesson Number ── */
+  .lesson-number {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+
+  strong { color: var(--text-bright); font-weight: 600; }
+  em { color: var(--text-muted); font-style: italic; }
+
+  /* ── What Claude Did — callout ── */
+  .callout-what-happened {
+    background: var(--accent-dim);
+    border: 1px solid rgba(88, 166, 255, 0.25);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+  .callout-what-happened .callout-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Callout variants ── */
+  .callout-warning {
+    background: var(--orange-dim);
+    border: 1px solid rgba(210, 153, 34, 0.25);
+    border-left: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .callout-warning .callout-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--orange);
+    margin-bottom: 0.4rem;
+  }
+
+  .callout-tip {
+    background: var(--green-dim);
+    border: 1px solid rgba(63, 185, 80, 0.25);
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .callout-tip .callout-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Code blocks ── */
+  pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+  }
+  p code, li code {
+    background: var(--bg-code);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: var(--purple);
+  }
+
+  /* CSS syntax highlighting classes — apply these in generated code */
+  .kw  { color: #ff7b72; }  /* keywords: import, from, if, return, class, def */
+  .fn  { color: #d2a8ff; }  /* function names, method calls */
+  .str { color: #a5d6ff; }  /* strings */
+  .cm  { color: #7d8590; font-style: italic; }  /* comments */
+  .num { color: #79c0ff; }  /* numbers */
+  .op  { color: #ff7b72; }  /* operators: =, =>, ->, :: */
+  .ty  { color: #ffa657; }  /* types, classes, decorators */
+  .var { color: #c9d1d9; }  /* variables */
+
+  /* ── Annotation blocks (for line-by-line explanation) ── */
+  .code-annotation {
+    display: flex;
+    gap: 1rem;
+    margin: 0.75rem 0;
+    align-items: flex-start;
+  }
+  .code-annotation code {
+    flex-shrink: 0;
+    background: var(--bg-code);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    border: 1px solid var(--border);
+  }
+  .code-annotation .explanation {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* ── Lists ── */
+  ul, ol {
+    margin: 0.5rem 0 1.5rem 1.5rem;
+  }
+  li {
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Try It Yourself section ── */
+  .try-it {
+    background: var(--bg-raised);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .try-it h3 {
+    color: var(--green);
+    margin-top: 0;
+    font-size: 0.95rem;
+  }
+
+  /* ── Footer ── */
+  .lesson-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+  }
+  .lesson-footer a {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    body { padding: 1.25rem 1rem 3rem; font-size: 15px; }
+    h1 { font-size: 1.5rem; }
+    pre { padding: 1rem; font-size: 0.82rem; }
+    .code-annotation { flex-direction: column; gap: 0.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="lesson-nav">
+  <span class="brand">Learn As You Ship</span>
+  <span class="tool-badge">{{TOOL_NAME}}</span>
+</nav>
+
+<!-- ── Lesson Header ── -->
+<div class="lesson-number">Lesson {{LESSON_NUMBER}}</div>
+<h1>{{LESSON_TITLE}}</h1>
+
+<!-- ── What Claude Did ── -->
+<div class="callout-what-happened">
+  <div class="callout-label">What just happened</div>
+  <p>{{WHAT_CLAUDE_DID}}</p>
+</div>
+
+<!-- ── The Concept ── -->
+<h2>The Concept</h2>
+<p>{{CONCEPT_EXPLANATION}}</p>
+<!-- Use analogies here if the user is at beginner level -->
+
+<!-- ── The Actual Code ── -->
+<h2>Your Code, Annotated</h2>
+<pre><code>{{ANNOTATED_CODE_BLOCK}}</code></pre>
+<!-- 
+  For line-by-line annotations, use this pattern after the code block:
+  
+  <div class="code-annotation">
+    <code>line_of_code</code>
+    <span class="explanation">What this line does and why.</span>
+  </div>
+-->
+
+<!-- ── Why It Matters ── -->
+<h2>Why This Matters</h2>
+<p>{{WHY_IT_MATTERS}}</p>
+<!-- What breaks without this? What problem does it solve? -->
+
+<!-- ── Going Deeper ── -->
+<h2>Going Deeper</h2>
+<p>{{GOING_DEEPER}}</p>
+<!-- Gotchas, best practices, alternatives. One level beyond basics. -->
+
+<!-- Optional: Warning or Tip callout -->
+<!--
+<div class="callout-warning">
+  <div class="callout-label">Common Gotcha</div>
+  <p>{{GOTCHA_TEXT}}</p>
+</div>
+
+<div class="callout-tip">
+  <div class="callout-label">Pro Tip</div>
+  <p>{{TIP_TEXT}}</p>
+</div>
+-->
+
+<!-- ── Try It Yourself ── -->
+<div class="try-it">
+  <h3>🧪 Try It Yourself</h3>
+  <p>{{EXERCISE_PROMPT}}</p>
+</div>
+
+<!-- ── Footer ── -->
+<div class="lesson-footer">
+  <span>Generated by <a href="https://github.com/{{YOUR_GITHUB}}/learn-as-you-ship">learn-as-you-ship</a></span>
+  <span>{{GENERATION_DATE}}</span>
+</div>
+
+</body>
+</html>
