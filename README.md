@@ -6,7 +6,7 @@ An agent skill that turns your coding assistant into a contextual tutor. Every t
 
 ## The Problem
 
-You're building a FastAPI + AWS + Terraform project. You know Python and FastAPI cold, but AWS and Terraform? That's all Claude. You ship working infrastructure you can't debug, deploy pipelines you can't modify, and IAM policies you can't read.
+You're building a project using FastAPI + AWS + Redis + Supabase + Nginx + 10 other things. You know Python and FastAPI cold, but AWS and Redis? That's all Claude. You ship working infrastructure you can't debug, deploy pipelines you can't modify, and IAM policies you can't read.
 
 **learn-as-you-ship** fixes this by teaching you in context — from your own codebase, as you build.
 
