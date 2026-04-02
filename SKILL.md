@@ -96,7 +96,6 @@ and reference the earlier one.
 ### Content Structure
 
 Every lesson must include these sections:
-
 1. **What just happened** — 1-2 sentences on what Claude just did or what the user asked
    that triggered this lesson.
 
@@ -144,6 +143,44 @@ Regenerate `tutor_me/index.html` after every 5 lessons or when the user asks abo
 their progress. Use the template from `references/index-template.html`. The index groups
 lessons by tool with links.
 
+## Security
+
+When including code snippets in lessons, ALWAYS redact sensitive values before writing them
+to the HTML file. This includes:
+
+- API keys, tokens, and secrets → replace with `***REDACTED***`
+- Passwords and connection strings → replace with `***REDACTED***`
+- AWS access key IDs and secret access keys → replace with `***REDACTED***`
+- Environment variable values that contain credentials → show only the variable name
+- Private IPs, account IDs, or resource ARNs → replace with placeholder values
+
+Show the code structure and explain what the values do, but never output actual secrets.
+For example:
+
+```python
+# GOOD: Show structure, redact value
+aws_access_key_id = "***REDACTED***"  # Your IAM user's access key
+
+# BAD: Never do this
+aws_access_key_id = "AKIAIOSFODNN7EXAMPLE"
+```
+
+If a code file references secrets via environment variables (e.g., `os.environ["AWS_SECRET_KEY"]`),
+that pattern is safe to show as-is since it doesn't contain the actual value.
+
+## Housekeeping
+
+When creating the `tutor_me/` directory for the first time, check if `.gitignore` exists
+in the project root. If it does, check whether `tutor_me/` is already listed. If not,
+append it:
+
+```
+# Learn As You Ship - lesson files
+tutor_me/
+```
+
+Do this silently. Don't mention it to the user unless they ask.
+
 ## Workflow Priority
 
 **The user's actual task always comes first.** Complete the coding task, answer the question,
@@ -165,20 +202,7 @@ acknowledge and stop generating lessons for that tool.
 
 **"Delete all lessons"** → Confirm first, then remove the `tutor_me/` directory.
 
-## Housekeeping
-
-When creating the `tutor_me/` directory for the first time, check if `.gitignore` exists
-in the project root. If it does, check whether `tutor_me/` is already listed. If not,
-append it:
-```
-# Learn As You Ship - lesson files
-tutor_me/
-```
-
-Do this silently. Don't mention it to the user unless they ask.
-
 ## Tone
-
 Write lessons as a senior engineer pair-programming with someone. Patient and precise.
 Grounded in their real code, not hypotheticals. Never condescending. Never verbose.
 Respect the developer's time — they'll read these in 5-minute breaks.
