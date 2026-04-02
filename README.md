@@ -12,36 +12,34 @@ You're building a project using FastAPI + AWS + Redis + Supabase + Nginx + 10 ot
 
 ## How It Works
 
-1. **Tell Claude what you're learning:**
-   ```
-   "I want to learn AWS and GitHub Actions as I go"
-   ```
-
-2. **Keep coding normally.** Claude does its thing.
-
+1. **Install the skill.**
+2. **Keep coding normally.** Whenever you express uncertainty — "I don't know GitHub well", "what does this Terraform block do?", "can you explain this AWS config?" — Claude generates a lesson alongside its normal response.
 3. **Check `tutor_me/` when you have 5 minutes.** Each file is a focused lesson about a concept Claude just used in your code — with your actual code annotated, not generic examples.
 
 ```
 tutor_me/
 ├── index.html                          ← Your learning dashboard
-├── .learning-config.json               ← Tracked tools config
 ├── 001-s3-bucket-creation.html         ← What Claude did + why
 ├── 002-iam-policy-attachment.html
 ├── 003-github-actions-workflow.html
 └── ...
 ```
 
+No configuration needed. No setup step. It just works.
+
 ## Installation
 
-### For Claude Code (recommended)
+### For Claude Code
 
 ```bash
 # Install from skills.sh
 npx skills add thebrokenapp/learn-as-you-ship
 
-# Or manually: copy to your project
-cp -r learn-as-you-ship/ .claude/skills/
+# Or manually: clone to your project's skills directory
+git clone https://github.com/thebrokenapp/learn-as-you-ship.git .claude/skills/learn-as-you-ship
 ```
+
+You can also invoke it explicitly anytime with `/learn-as-you-ship`.
 
 ### For other agents
 
@@ -49,7 +47,7 @@ Copy `SKILL.md` to your agent's skills directory. The skill follows the open SKI
 
 ## Lesson Design
 
-Each lesson is a self-contained dark-themed HTML file. No dependencies. Opens in any browser. Looks like this:
+Each lesson is a self-contained dark-themed HTML file. No dependencies. Opens in any browser. Includes:
 
 - **"What just happened"** — One-line summary of what Claude did
 - **The Concept** — Core idea explained simply, with analogies
@@ -60,34 +58,30 @@ Each lesson is a self-contained dark-themed HTML file. No dependencies. Opens in
 
 Lessons get progressively deeper as you accumulate more for the same tool.
 
-## Configuration
+## Usage
 
-The skill auto-creates `tutor_me/.learning-config.json`:
+The skill detects learning opportunities automatically from how you talk:
 
-```json
-{
-  "tools": ["aws", "terraform", "github-actions"],
-  "level": "beginner",
-  "lessons_generated": 0,
-  "created_at": "2026-04-01"
-}
-```
+- *"I don't know AWS well but we need an S3 bucket"* → lesson generated
+- *"What does this Terraform block do?"* → lesson generated
+- *"I don't understand this GitHub Actions config"* → lesson generated
+- *"Is this IAM policy right?"* → lesson generated
 
-Manage it conversationally:
-- *"Add Docker to my learning list"*
-- *"I already know Terraform basics, set it to intermediate"*
-- *"Stop teaching me about Redis"*
-- *"What have I learned so far?"*
-
-## Add to .gitignore (optional)
-
-If you don't want lessons in version control:
+You can also invoke it directly:
 
 ```
-tutor_me/
+/learn-as-you-ship What is this Redis caching pattern doing in our code?
 ```
 
-Or keep them — they're great documentation for your future self and teammates.
+Manage your lessons conversationally:
+
+- *"What have I learned so far?"* → lists all lessons with summaries
+- *"Stop teaching me about Redis"* → stops generating lessons for that tool
+- *"Delete all lessons"* → clears the tutor_me/ directory
+
+## Security
+
+Code snippets in lessons are automatically redacted — API keys, tokens, secrets, and credentials are replaced with `***REDACTED***` before being written to HTML files. Environment variable references (e.g., `os.environ["AWS_SECRET_KEY"]`) are safe to show as-is.
 
 ## License
 
